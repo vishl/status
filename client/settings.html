@@ -1,0 +1,59 @@
+<template name="settings">
+  <div class="modal hide" id="settings-modal" data-backdrop="false">
+    {{> settingsInner}}
+  </div>
+</template>
+
+<template name="settingsInner">
+  <form>
+    <div class="modal-header">
+      <h3>Settings</h3>
+    </div>
+    <div class="modal-body">
+      {{#if error}}
+        <div class="alert alert-error">{{error}}</div>
+      {{/if}}
+      <input type="text" id="name" value="{{displayName}}">
+      <span class="help-inline">(Only your name is shared with others)</span>
+      {{> colorpicker}}
+      <div class="username" style="background:{{userbgcolor}};color:{{usercolor}};">{{username}}</div>
+      <div>{{email}}</div>
+    </div>
+    <div class="modal-footer">
+      <input type="button" class="btn" id="cancel" value="Cancel">
+      <input type="submit" class="btn btn-primary" id="ok" value="Save">
+    </div>
+  </form>
+</template>
+
+<template name="sharingPage">
+  <div class="row shadowborder" id="sharing-area">
+    <div class="span4 offset2" id="sendlist">
+      <div class="sharing-header">
+        Who can see me?
+      </div>
+      <ul class="shareitems">
+      {{#each sendList}}
+        {{> shareitem}}
+      {{/each}}
+      </ul>
+    </div>
+    <div class="span4" id="receivelist">
+      <div class="sharing-header">
+        Who can I see?
+      </div>
+      <ul class="shareitems">
+      {{#each receiveList}}
+        {{> shareitem}}
+      {{/each}}
+      </ul>
+    </div>
+</template>
+
+<template name='shareitem'>
+  <li class="shareitem">
+  <span class="name">{{displayName}}</span>
+  <span class="username">@{{username}}</span>
+  <a class="close" data-id="{{id}}">&times;</a>
+</template>
+

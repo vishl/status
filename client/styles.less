@@ -1,0 +1,400 @@
+
+@turquoise:     #1abc9c;
+@green-sea:     #16a085;
+
+@emerland:      #2ecc71;
+@nephritis:     #27ae60;
+
+@peter-river:   #3498db;
+@belize-hole:   #2980b9;
+
+@amethyst:      #9b59b6;
+@wisteria:      #8e44ad;
+
+@wet-asphalt:   #34495e;
+@midnight-blue: #2c3e50;
+
+@sun-flower:    #f1c40f;
+@orange:        #f39c12;
+
+@carrot:        #e67e22;
+@pumpkin:       #d35400;
+
+@alizarin:      #e74c3c;
+@pomegranate:   #c0392b;
+
+@clouds:        #ecf0f1;
+@silver:        #bdc3c7;
+
+@concrete:      #95a5a6;
+@asbestos:      #7f8c8d;
+
+
+@brand-color: @turquoise;
+
+a{
+  cursor:pointer;
+}
+
+a:hover{
+  text-decoration:none;
+}
+
+ul{
+  list-style:none;
+  margin:0;
+}
+
+form{
+  margin:0;
+}
+
+body{
+  height:100%;
+  background:@clouds;
+}
+
+.main-background{
+  margin-top:-20px;
+  padding-top:20px;
+  padding-bottom:60px;
+  min-height:600px;
+}
+
+.navbar-inner{
+  background:white;
+  .brand{
+    color:white;
+    text-shadow:none;
+    background:@brand-color;;
+  }
+}
+
+/*
+.navbar .nav > li > a{
+  color:white;
+  text-shadow:none;
+}
+*/
+
+#footer{
+  border-top: solid 3px @brand-color;
+  background:white;
+
+  .footer-inner{
+    padding-top:30px;
+    padding-bottom:30px;
+  }
+}
+
+#loading{
+  padding-top:100px;
+  text-align:center;
+}
+
+.name{
+  font-weight:bold;
+}
+
+#friend-signed-out-message{
+  text-align:center;
+  font-size:30px;
+  color: @amethyst;
+  padding:10px;
+}
+
+#onboarding{
+  background-image:url('/old_office.jpg');
+  background-position:center;
+  background-repeat:no-repeat;
+  height:459px;
+
+  .help-inline{
+    color:white;
+  }
+
+  a{
+    color:white;
+  }
+
+  a:hover{
+    color:@clouds;
+  }
+
+  .blurb{
+    background:rgba(0,0,0,.3);
+    color:white;
+    padding:20px;
+    margin-top:50px;
+  }
+}
+
+#onboarding-inner{
+  padding-top:100px;
+}
+
+#signup input[type="submit"],
+#login input[type="submit"]{
+  display:block;
+}
+#login input{
+  display:block;
+}
+
+form#signup{
+  .help-inline{
+    width:200px;
+  }
+}
+
+#edit-status{
+  resize:none;
+  width:100%;
+}
+#update{
+  
+}
+
+ul#friendstatus-area{
+  margin-left:0px;
+  padding:0;
+  list-style-type: none;
+}
+
+#friendstatus-area{
+  width:100%;
+}
+
+.friendstatus{
+  position:relative;
+  width:280px;
+  background:white;
+  margin:14px;
+  float:left;
+
+  .name-time{
+    display:block;
+    text-align:center;
+    border-top:solid 1px rgba(0,0,0,0.1);
+    padding:20px;
+  }
+
+  .username{
+    font-size:12px;
+    color:#999;
+  }
+
+  .time{
+    display:block;
+    text-align:right;
+    padding-right:10px;
+    font-size:10px;
+  }
+
+  .status{
+    display:block;
+    padding:10px 20px 10px 20px;
+    img{
+      //max-height:150px;
+    }
+  }
+
+  .status-time{
+    padding-bottom:10px;
+  }
+}
+
+.shadowborder:before {
+  -webkit-box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
+  -moz-box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
+  box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
+  bottom: 3px;
+  content: '';
+  left: 3px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  z-index: -1;
+}
+
+#fr-dropdown{
+  width:250px;
+  padding:0px;
+}
+
+.frcount{
+  display:inline-block;
+  text-align:center;
+  background:@carrot;
+  color:@clouds;
+  padding:0px 3px;
+  min-width:14px;
+  border-radius:14px;
+}
+
+.friend-request:hover{
+  background:#eee;
+}
+
+.friend-request{
+  /*width:200px;*/
+  padding:10px;
+
+  .name{
+    font-weight:bold;
+  }
+  .username{
+    font-size:10px;
+    color:#aaa;
+  }
+  .approve-reject{
+    float:right;
+    font-size:20px;
+    height:20px;
+    margin-top:8px;
+  }
+  #approve,#reject{
+    display:inline-block;
+    width:40px;
+    text-align:center;
+    float:left;
+    margin-left:3px;
+    border:solid 1px rgba(0,0,0,0.1);
+  }
+  #approve{
+    background:@emerland;
+    i{
+      color:white;
+    }
+  }
+  #reject{
+    background:@alizarin;
+    i{
+      color:white;
+    }
+  }
+  .followback{
+    padding-top:10px;
+    label{
+      font-size:12px;
+      margin:0;
+    }
+    input{
+      margin-top:-2px;
+    }
+  }
+}
+
+//Settings
+
+#settings-modal{
+  .username{
+    padding:10px;
+    width:200px;
+  }
+  #colorpicker-area{
+    padding:10px;
+    border:solid 1px rgba(0,0,0,.1);
+    float:right;
+    margin-right:30px;
+    width:180px;
+
+    .color{
+      cursor:pointer;
+      display:inline-block;
+      width:20px;
+      height:20px;
+      padding:1px;
+    }
+
+    .color:hover{
+      box-shadow:0 0 1px 1px rgba(0,0,0,.3);
+    }
+  }
+}
+
+#sharing-area{
+  padding-top:20px;
+  padding-bottom:20px;
+  color:white;
+
+  .sharing-header{
+    font-size:24px;
+    padding:10px;
+  }
+  #sendlist{
+    background:@belize-hole;
+
+    .sharing-header{
+      background:@peter-river;
+    }
+
+    .shareitem{
+      border-top:solid 1px @belize-hole;
+      border-bottom:solid 1px @belize-hole;
+    }
+
+    .shareitem:hover{
+      background:@peter-river;
+    }
+  }
+  #receivelist{
+    background:@nephritis;
+
+    .sharing-header{
+      background:@emerland;
+    }
+
+    .shareitem{
+      border-top:solid 1px @nephritis;
+      border-bottom:solid 1px @nephritis;
+    }
+
+    .shareitem:hover{
+      background:@emerland;
+    }
+  }
+}
+
+.shareitem{
+  line-height:30px;
+  padding:15px;
+  .name{
+    font-weight:bold;
+    font-size:14px;
+  }
+  .username{
+    font-size:12px;
+    color: @silver;
+  }
+
+}
+
+
+/*ul.shareitems > li:last-child{
+  border-bottom:solid 1px @silver;
+}*/
+  
+
+#user-area{
+  background:white;
+  height:600px;
+  .message{
+    text-align:center;
+    font-size:30px;
+    .username{
+      font-size:20px;
+      color:@silver;
+    }
+    margin-top:30px;
+    padding:20px;
+  }
+
+  .buttons{
+    text-align:center;
+  }
+  .checkbox{
+    text-align:left;
+    margin-left:40px;
+  }
+}

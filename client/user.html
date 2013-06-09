@@ -1,0 +1,18 @@
+<template name="userPage">
+<div id="user-area">
+  <div class="row">
+    <div class="span4 offset4">
+      <div class="message">
+        <span class="name">{{userDisplayName}}</span>
+        <span class="username">@{{username}}</span>
+      </div>
+      <div class="buttons">
+        <a class="btn btn-success btn-large" id="request">Send request to {{userDisplayName}}</a>
+        <div class="checkbox">
+          <label><input type="checkbox" checked="checked" id="share">Also share my status with them</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>

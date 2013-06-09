@@ -1,0 +1,162 @@
+<head>
+  <title>Just the status.</title>
+</head>
+
+<body>
+  {{> page}}
+  {{> modals}}
+</body>
+
+<template name="page">
+{{> header}}
+<div class="main-background">
+<div class="container">
+  <div id="main-area">
+    {{#if isLoading}}
+      {{> loading}}
+    {{else}}
+      {{renderPage}}
+    {{/if}}
+  </div>
+</div>
+</div>
+{{#if currentUser}}
+  {{> footer}}
+{{/if}}
+</template>
+
+<template name="loading">
+  <div id="loading">
+    Loading...
+  </div>
+</template>
+
+<template name="statusPage">
+<div class="row">
+  {{> myStatus}}
+</div>
+<div class="row">
+  <div class="span12">
+    {{> friendStatuses}}
+  </div>
+</div>
+  <!--show other peoples status-->
+</template>
+
+<template name="myStatus">
+  <div class="span5">
+    <!--edit my status-->
+    <textarea id="edit-status" placeholder="Edit status">{{status}}</textarea>
+  </div>
+  <div class="span1">
+    <input type="button" class="btn" value="Update" id="update">
+  </div>
+</template>
+
+<template name="friendStatuses">
+<div id="friendstatus-area">
+  {{#each friends}}
+    {{> friendStatus}}
+  {{/each}}
+</div>
+</template>
+
+<template name="friendStatus">
+    <div class="friendstatus shadowborder">
+      <div class="status-time">
+        <span class="time" data-username="{{displayUserName}}">{{statusTime}}</span>
+        <span class="status">{{status}}</span>
+      </div>
+      <div class="name-time" style="background:{{displayBgColor}};color:{{displayColor}}">
+        <span class="name">{{displayName}}</span>
+        <span class="username" data-username="{{displayUserName}}">@{{displayUserName}}</span>
+      </div>
+    </div>
+</template>
+
+<template name="friendRequests">
+      {{#if frCount}}
+        <li>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <b class="caret"></b>
+            <span class="frcount">{{frCount}}</span> share requests
+          </a>
+          <ul class="dropdown-menu" id="fr-dropdown">
+            {{#each requests}}
+              {{> friendRequest}}
+            {{/each}}
+          </ul>
+        </li>
+      {{/if}}
+</template>
+
+<template name="friendRequest">
+  <li class="friend-request">
+    <div class="name-area">
+      <span class="name">{{userName}}</span>
+      <span class="username">@{{username}}</span>
+    </div>
+    <div class="button-area">
+      <div class="approve-reject">
+        <a id="approve"><i class="icon icon-ok"></i></a>
+        <a id="reject"><i class="icon icon-remove"></i></a>
+      </div>
+      <div class="followback">
+        <label><input type="checkbox" checked="checked"> Share back</label>
+      </div>
+    </div>
+  </li>
+</template>
+
+<template name="friendLink">
+  <div id="fr-link">
+    Want more friends? Send them this link:
+    {{url}}
+  </div>
+</template>
+
+<!--******************** Modals ********************-->
+
+<template name="modals">
+  {{> settings}}
+  {{> findFriends}}
+</template>
+
+
+<template name="colorpicker">
+  <div id="colorpicker-area">
+    {{#each colors}}
+      <div class="color" style="background:{{color}}" data-index="{{index}}"></div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="findFriends">
+  <div class="modal hide" id="findfriends-modal" data-backdrop="false">
+    {{> findFriendsInner}}
+  </div>
+</template>
+
+<template name="findFriendsInner">
+  <form class="form-inline">
+    <div class="modal-header">
+      <h3>Find Friends</h3>
+    </div>
+    <div class="modal-body">
+      {{#if error}}
+        <div class="alert alert-error">{{error}}</div>
+      {{/if}}
+      {{#if message}}
+        <div class="alert alert-success">{{message}}</div>
+      {{/if}}
+      <div><label>Find friends by username or email</label></div>
+      <input type="text" id="query" placeholder="Username or email">
+      <input type="submit" class="btn btn-success" id="ok" value="Send request">
+      <div><label><input type="checkbox" id="followback" checked="checked"> Allow them to view my status as well</label></div>
+    </div>
+    <div class="modal-footer">
+      <input type="button" class="btn" id="cancel" value="Done">
+    </div>
+  </form>
+</template>
+
