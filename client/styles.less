@@ -53,6 +53,34 @@ body{
   height:100%;
   background:@clouds;
 }
+.btn{
+  border:none;
+}
+
+.btn-success{
+  background:@green-sea;
+}
+.btn-success:hover{
+  background:@turquoise;
+}
+
+.shadowborder:before {
+  -webkit-box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
+  -moz-box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
+  box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
+  bottom: 3px;
+  content: '';
+  left: 3px;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  z-index: -1;
+}
+
+.shadowborder{
+  position:relative;
+}
+
 
 .main-background{
   margin-top:-20px;
@@ -62,11 +90,13 @@ body{
 }
 
 .navbar-inner{
-  background:white;
+  background:none;
+  border:none;
   .brand{
-    color:white;
     text-shadow:none;
-    background:@brand-color;;
+    color:@brand-color;;
+    font-weight:bolder;
+    font-size:36px;
   }
 }
 
@@ -99,8 +129,15 @@ body{
 #friend-signed-out-message{
   text-align:center;
   font-size:30px;
-  color: @amethyst;
-  padding:10px;
+  color: @concrete;
+  padding:30px;
+  margin:10px 0px;
+  background:white;
+
+  .username{
+    font-size:20px;
+    color:@silver;
+  }
 }
 
 #onboarding{
@@ -115,6 +152,7 @@ body{
 
   a{
     color:white;
+    text-shadow:0px 1px 10px rgba(0,0,0,1);
   }
 
   a:hover{
@@ -122,15 +160,27 @@ body{
   }
 
   .blurb{
-    background:rgba(0,0,0,.3);
     color:white;
-    padding:20px;
-    margin-top:50px;
+    font-size:36px;
+    line-height:60px;
+    text-shadow: 0px 1px 20px rgba(0,0,0,1);
+    margin-top:60px;
   }
 }
 
 #onboarding-inner{
   padding-top:100px;
+}
+
+#signup, #login{
+  input[type="text"], input[type="email"], input[type="password"]{
+    background:rgba(0,0,0, 0.5);
+    color:white;
+    border:none;
+    width:274px;
+    margin-bottom:7px;
+    padding:8px 10px;
+  }
 }
 
 #signup input[type="submit"],
@@ -147,13 +197,128 @@ form#signup{
   }
 }
 
-#edit-status{
-  resize:none;
-  width:100%;
+#mystatus-area{
+  /*background:white;*/
+   box-shadow:0 0 3px rgba(0,0,0,.5);
+
+  .header{
+    background:@green-sea;
+    color:white;
+    font-size:20px;
+    margin-left:-20px;
+    padding:10px;
+    padding-left:30px;
+  }
+
+  .prompt{
+    font-size:30px;
+    margin-top:20px;
+  }
+
+  .textarea-outer{
+    padding:5px 20px 5px 5px;
+  }
+
+  #edit-status{
+    resize:none;
+    width:100%;
+    height:50px;
+  }
+
+  .controls{
+    padding: 0px 20px;
+    text-align:right;
+  }
+
+  .friendstatus{
+    /*box-shadow:0 0 3px rgba(0,0,0,.5);*/
+    padding-top:30px;
+  }
+
 }
-#update{
-  
+
+@media (max-width: 767px) {
+  #mystatus-area .header{
+    margin-left:0;
+  }
 }
+
+@media (min-width: 1200px){
+  #mystatus-area .header{
+    margin-left:-30px;
+  }
+}
+
+.chat-area{
+  background:white;
+  padding:10px;
+  .from{
+    font-weight:bold;
+  }
+  .messages{
+    max-height:200px;
+    overflow-y:auto;
+    padding-right:2px;
+    margin-bottom:5px;
+  }
+  .messages::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+
+  .messages::-webkit-scrollbar-track-piece {
+      background-color: #ffffff;
+  }
+
+  .messages::-webkit-scrollbar-thumb:vertical {
+      height: 2px;
+      background-color: @silver;
+  }
+
+  .messages::-webkit-scrollbar-thumb:horizontal {
+      width: 2px;
+      background-color: @silver;
+  }
+
+  .help{
+    display:inline-block;
+    padding:3px;
+    color:@silver;
+  }
+
+  .new-message input{
+    margin-bottom:0;
+    border-color:white;
+  }
+
+}
+
+.friendstatus:hover .new-message input{
+  border-color:@silver;
+}
+
+.friendstatus:hover .new-message input:focus{
+  border-color:@peter-river;
+}
+.chatbox:hover .new-message input{
+  border-color:@silver;
+}
+
+.chatbox:hover .new-message input:focus{
+  border-color:@peter-river;
+}
+
+.chat-area input:focus{
+  border-color:@peter-river;
+}
+
+.chatbox{
+  width:250px;
+  float:left;
+  margin:14px 15px 14px 0px;
+  /*box-shadow:0 0 3px rgba(0,0,0,.5);*/
+}
+
 
 ul#friendstatus-area{
   margin-left:0px;
@@ -163,19 +328,20 @@ ul#friendstatus-area{
 
 #friendstatus-area{
   width:100%;
+  position:relative;
 }
 
 .friendstatus{
   position:relative;
-  width:280px;
+  width:270px;
   background:white;
-  margin:14px;
+  margin:14px 15px 14px 0px;
   float:left;
 
   .name-time{
+    position:relative;
     display:block;
-    text-align:center;
-    border-top:solid 1px rgba(0,0,0,0.1);
+    border-bottom:solid 1px rgba(0,0,0,0.1);
     padding:20px;
   }
 
@@ -186,8 +352,10 @@ ul#friendstatus-area{
 
   .time{
     display:block;
-    text-align:right;
-    padding-right:10px;
+    position:absolute;
+    top:5px;
+    right:5px;
+    color:@concrete;
     font-size:10px;
   }
 
@@ -199,22 +367,14 @@ ul#friendstatus-area{
     }
   }
 
+  .statusprompt{
+    color:@silver;
+    font-size:16;
+  }
+
   .status-time{
     padding-bottom:10px;
   }
-}
-
-.shadowborder:before {
-  -webkit-box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
-  -moz-box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
-  box-shadow: 0 1px 3px 3px rgba(0,0,0,0.33);
-  bottom: 3px;
-  content: '';
-  left: 3px;
-  position: absolute;
-  right: 3px;
-  top: 3px;
-  z-index: -1;
 }
 
 #fr-dropdown{
@@ -377,17 +537,34 @@ ul#friendstatus-area{
   
 
 #user-area{
+  height:300px;
   background:white;
-  height:600px;
+
+  .title{
+    background:@turquoise;
+    font-size:20px;
+    line-height:30px;
+    padding-left:20px;
+    color:@clouds;
+  }
+
+  .alert{
+    margin-top:20px;
+    margin-bottom:-20px;
+  }
+
   .message{
     text-align:center;
     font-size:30px;
+    line-height:36px;
     .username{
       font-size:20px;
       color:@silver;
     }
     margin-top:30px;
     padding:20px;
+    overflow-x:hidden;
+    word-wrap:break-word;
   }
 
   .buttons{
@@ -395,6 +572,36 @@ ul#friendstatus-area{
   }
   .checkbox{
     text-align:left;
-    margin-left:40px;
+    width:215px;
+    margin:auto;
+    text-align:center;
   }
+}
+
+#user-help{
+  background:white;
+  padding:30px;
+  margin-top:30px;
+
+  .help-header{
+    color:@silver;
+    line-height:35px;
+    font-size:30px;
+  }
+  .help-text{
+    font-size:20px;
+    margin-left:20px;
+  }
+  p{
+    margin-top:20px;
+  }
+}
+
+#friend-link{
+  background:white;
+  text-align:center;
+  margin-top:40px;
+  padding:20px;
+  font-weight:bold;
+  color:@silver;
 }

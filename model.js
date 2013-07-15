@@ -1,4 +1,4 @@
-/*global MF Meteor Utils _ */
+/*global MF Meteor Utils _ Messages*/
 
 //Namespace for model functions
 MF = {};
@@ -90,3 +90,26 @@ MF.userStatusTimeDelta = function(user){
   }
   return "";
 };
+
+////////////////////////////////// Messages ////////////////////////////////////
+Messages = new Meteor.Collection("messages");
+
+Messages.allow({
+  insert: function (userId, message) {
+    //validate
+    if(message.fromId === userId && message.aboutId && message.otherId && message.content && ((new Date()).getTime() - message.time)<20000){
+      return true;
+    }
+    return false;
+
+  },
+  update: function (userId, message, fields, modifier) {
+    return false; //immutable
+  },
+  remove: function (userId, message) {
+    // You can only remove messages where you are the topic
+    return message.aboutId === userId;
+  }
+});
+
+

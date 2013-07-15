@@ -1,10 +1,14 @@
 <head>
-  <title>Just the status.</title>
+  <title>Status</title>
+<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/BV2TJpAUBNTGGS2vmTsWGg.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 
 <body>
   {{> page}}
   {{> modals}}
+  <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+
 </body>
 
 <template name="page">
@@ -32,24 +36,81 @@
 </template>
 
 <template name="statusPage">
-<div class="row">
   {{> myStatus}}
-</div>
 <div class="row">
   <div class="span12">
     {{> friendStatuses}}
   </div>
 </div>
+<div class="row">
+  {{> friendLink}}
+</div>
   <!--show other peoples status-->
 </template>
 
 <template name="myStatus">
-  <div class="span5">
-    <!--edit my status-->
-    <textarea id="edit-status" placeholder="Edit status">{{status}}</textarea>
+  <div class="row" id="mystatus-area">
+    <div class="span12">
+      <div class="header" style="background:{{displayBgColor}}">
+        Your status (<span class="name">{{displayName}}</span>
+          <span class="username" data-username="{{displayUserName}}">@{{displayUserName}}</span>)
+      </div>
+      <div class="mystatus friendstatus shadowborder">
+        <!--<div class="name-time" style="background:{{displayBgColor}};color:{{displayColor}}">
+          <span class="name">{{displayName}}</span>
+          <span class="username" data-username="{{displayUserName}}">@{{displayUserName}}</span>
+        </div>-->
+        <div class="status-time">
+          <span class="time" data-username="{{displayUserName}}">{{statusTime}}</span>
+          {{#if edit}}
+            <div class="textarea-outer">
+              <textarea id="edit-status" placeholder="What's on your mind?">{{status}}</textarea>
+            </div>
+            <div class="controls">
+              <a class="btn" id="cancel">Cancel</a>
+              <a class="btn" id="update">Update</a>
+            </div>
+          {{else}}
+            {{#if status}}
+              <span class="status">{{status}}</span>
+            {{else}}
+              <span class="status statusprompt">[Your status is blank! You should change it]</span>
+            {{/if}}
+            <div class="controls">
+              <a id="edit" class="btn">Edit your status</a>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+      {{#each messageUser}}
+        {{> chatbox}}
+      {{/each}}
+      <!--<div id="mystatus">
+        <textarea id="edit-status" placeholder="Edit status">{{status}}</textarea>
+        <input type="button" class="btn btn-large btn-primary" value="Update Status" id="update">
+      </div>-->
+    </div>
   </div>
-  <div class="span1">
-    <input type="button" class="btn" value="Update" id="update">
+</template>
+
+<template name="chatbox">
+  <div class="chat-area shadowborder chatbox">
+    <div class="messages">
+      {{#each messages}}
+        {{> message}}
+      {{/each}}
+    </div>
+    <div class="new-message">
+      <form>
+        <input type="text" id="new-message" placeholder="Reply (private)">
+      </form>
+    </div>
+  </div>
+</template>
+
+<template name="message">
+  <div class="message">
+    <span class="from">{{fromName}}</span>: <span class="content">{{content}}</span>
   </div>
 </template>
 
@@ -63,13 +124,31 @@
 
 <template name="friendStatus">
     <div class="friendstatus shadowborder">
-      <div class="status-time">
-        <span class="time" data-username="{{displayUserName}}">{{statusTime}}</span>
-        <span class="status">{{status}}</span>
-      </div>
       <div class="name-time" style="background:{{displayBgColor}};color:{{displayColor}}">
+        <span class="time" data-username="{{displayUserName}}">{{statusTime}}</span>
         <span class="name">{{displayName}}</span>
         <span class="username" data-username="{{displayUserName}}">@{{displayUserName}}</span>
+      </div>
+      <div class="status-time">
+        {{#isolate}}
+          <span class="status">{{status}}</span>
+        {{/isolate}}
+      </div>
+      <div class="chat-area">
+        {{#isolate}}
+          <div class="messages">
+            {{#each messages}}
+              {{> message}}
+            {{/each}}
+          </div>
+          <div class="new-message">
+            <form>
+              <input type="text" id="new-message" placeholder="Reply (private)">
+              <a class="tt help" data-toggle="tooltip" data-placement="right" 
+                title="Messages are only seen by {{displayName}}">?</a>
+            </form>
+          </div>
+        {{/isolate}}
       </div>
     </div>
 </template>
@@ -102,17 +181,10 @@
         <a id="reject"><i class="icon icon-remove"></i></a>
       </div>
       <div class="followback">
-        <label><input type="checkbox" checked="checked"> Share back</label>
+        <label><input type="checkbox" checked="checked"> Request back</label>
       </div>
     </div>
   </li>
-</template>
-
-<template name="friendLink">
-  <div id="fr-link">
-    Want more friends? Send them this link:
-    {{url}}
-  </div>
 </template>
 
 <!--******************** Modals ********************-->
@@ -143,6 +215,10 @@
       <h3>Find Friends</h3>
     </div>
     <div class="modal-body">
+      <div class="url-option well">
+        Friends not signed up yet? Just send them this link and they can sign up and friend you:
+        <a href="{{myUrl}}">{{myUrl}}</a>
+      </div>
       {{#if error}}
         <div class="alert alert-error">{{error}}</div>
       {{/if}}

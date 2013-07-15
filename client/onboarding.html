@@ -3,7 +3,7 @@
   <div class="navbar">
     <div class="navbar-inner">
       <div class="container">
-        <a class="brand" href="{{statusPagePath}}">Just the status</a>
+        <a class="brand" href="{{statusPagePath}}">Status</a>
         {{#if currentUser}}
           <ul class="nav">
             {{> friendRequests}}
@@ -33,7 +33,13 @@
 <div id="footer">
   <div class="container">
     <div class="footer-inner">
-      {{> blurb}}
+      <div class="pull-right">
+        Problems? Suggestions? 
+        <a id="uservoice">Forum</a>
+        - or -
+        <a href="mailto:feedback@justthestatus.com">Email me</a>
+      </div>
+      Status: A simpler way to share
     </div>
   </div>
 </div>
@@ -42,20 +48,22 @@
 <template name="onboarding">
   {{#if friendUser}}
     <div class="row">
-      <div id="friend-signed-out-message">
-        Please sign up so you can share with {{friendDisplayName}} <span class="username">@{{friendUserName}}</span>
+      <div class="span12">
+        <div id="friend-signed-out-message" class="shadowborder">
+          Sign up to share with {{friendDisplayName}} <span class="username">@{{friendUserName}}</span>
+        </div>
       </div>
     </div>
   {{/if}}
   <div id="onboarding">
     <div class="row">
       <div id="onboarding-inner">
-        <div class="span4 offset2">
+        <div class="span6 offset1">
           <div class="blurb">
             {{> blurb}}
           </div>
         </div>
-        <div class="span6">
+        <div class="span5">
           {{#if isLogin}}
             {{> login}}
           {{else}}
@@ -68,7 +76,8 @@
 </template>
 
 <template name="blurb">
-  Welcome to justthestatus.com.  It's like the status messages from days of old without all the annoying "chatting" and "email" business.
+Welcome to <span class="brand">Status</span>. 
+<p>A simpler way to share.
 </template>
 
 <template name="login">
@@ -78,7 +87,7 @@
     {{#if error}}
       <div class="alert alert-error">{{error}}</div>
     {{/if}}
-    <input type="submit" class="btn" value="Log In">
+    <input type="submit" class="btn btn-primary" value="Log In">
   </form>
   <a id="switch-create">Create an new account</a>
 </template>
@@ -86,8 +95,8 @@
 <template name="signup">
   <form id="signup" class="accounts" novalidate>
     <div>
-      <input type="text" placeholder="Name (optional)" id="account-name">
-      <span class="help-inline"><small>If you want to by known by something other than your user name</small></span>
+      <input type="text" placeholder="Name" id="account-name">
+      <!-- <span class="help-inline"><small>If you want to by known by something other than your user name</small></span> -->
     </div>
     <div><input type="text" placeholder="Username" id="account-username"></div>
     <div><input type="email" placeholder="Email" id="account-email"></div>
@@ -95,7 +104,15 @@
     {{#if error}}
       <div class="alert alert-error">{{error}}</div>
     {{/if}}
-    <input type="submit" class="btn" value="Sign up">
+    <input type="submit" class="btn btn-success btn-large" value="Sign up">
   </form>
   <a id="switch-login">Already have an account? Sign in</a>
+</template>
+
+<template name="friendLink">
+  <div class="span12">
+    <div id="friend-link">
+      Want more friends? Send them this link: <a href="{{link}}">{{link}}</a>
+    </div>
+  </div>
 </template>

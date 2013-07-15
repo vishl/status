@@ -1,16 +1,44 @@
 <template name="userPage">
-<div id="user-area">
+<div id="user-area" class="shadowborder">
   <div class="row">
-    <div class="span4 offset4">
+    <div class="span12">
+      <div class="title">
+        Status request
+      </div>
+      {{#if message}}
+        <div class="alert alert-success"> {{message}} </div>
+      {{/if}}
+      {{#if error}}
+        <div class="alert alert-error"> {{error}} </div>
+      {{/if}}
       <div class="message">
-        <span class="name">{{userDisplayName}}</span>
-        <span class="username">@{{username}}</span>
+        Request to see 
+        <span class="name">{{userDisplayName}}</span>'s
+        <span class="username">(@{{username}})</span> status
       </div>
       <div class="buttons">
+      {{#if message}}
+        <a class="btn btn-success btn-large" href="{{statusPagePath}}">Back to my home page</a>
+      {{else}}
         <a class="btn btn-success btn-large" id="request">Send request to {{userDisplayName}}</a>
         <div class="checkbox">
           <label><input type="checkbox" checked="checked" id="share">Also share my status with them</label>
         </div>
+      {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <div id="user-help" class="shadowborder">
+      <div class="help-header">
+        What is this?
+      </div>
+      <div class="help-text">
+        When {{userDisplayName}} approves your request, you will see their status message on your home page whenever they update it.
+        <p>If you share your status with them, they will be able to see yours as well!
       </div>
     </div>
   </div>

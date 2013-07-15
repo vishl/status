@@ -1,4 +1,4 @@
-/*global Meteor Accounts Utils MF _*/
+/*global Meteor Accounts Utils MF _ Messages*/
 Meteor.startup(function () {
   // code to run on server at startup
 });
@@ -8,21 +8,32 @@ Meteor.publish("userData", function () {
 });
 
 Meteor.publish("friendUserData", function () {
-  return Meteor.users.find({sendList:this.userId}, {fields: {'profile.name': 1, username:1, status:1, statusTime:1, sendList:1}});
+  return Meteor.users.find({sendList:this.userId}, {fields: {'profile': 1, username:1, status:1, statusTime:1, sendList:1}});
 });
 
 Meteor.publish("allUserData", function () {
-  return Meteor.users.find({}, {fields: {username:1, 'profile.name':1, sendList:1}});
+  return Meteor.users.find({}, {fields: {username:1, 'profile':1, sendList:1}});
 });
 
 Meteor.publish("requesters", function(){
   var currentUser = Meteor.users.findOne({_id:this.userId});
   if(currentUser){
     var requestList = currentUser.requestList;
-    return Meteor.users.find({_id:{$in:requestList}}, {fields: {'profile.name': 1, username:1}});
+    return Meteor.users.find({_id:{$in:requestList}}, {fields: {profile: 1, username:1}});
   }else{
     return null;
   }
+});
+
+Meteor.publish("messages", function () {
+  return Messages.find(
+    {$or:
+      [
+        {aboutId:this.userId},
+        {otherId:this.userId}
+      ]
+    }
+  );
 });
 
 Meteor.users.allow({

@@ -114,14 +114,19 @@ Template.shareitem.events({
   'click .close' : function(e,t){
     e.preventDefault();
     var id = $(t.find('.close')).data('id');
+    var user = Meteor.users.findOne({_id:id});
     var node = $(t.firstNode);
     var isSendList = !!node.parents('#sendlist').length;
     if(isSendList){
-      console.log("Removing " + id + "from send list");
-      Meteor.call('removeFromSendList', id);
+      if(window.confirm("Are you sure you want to block " + MF.userDisplayName(user) + " from seeing your status?")){
+        console.log("Removing " + id + "from send list");
+        Meteor.call('removeFromSendList', id);
+      }
     }else{
-      console.log("Removing " + id + "from receive list");
-      Meteor.call('removeFromReceiveList', id);
+      if(window.confirm("Are you sure you want to remove " + MF.userDisplayName(user) + " from your page? They will still be able to see your status if you have allowed them to.")){
+        console.log("Removing " + id + "from receive list");
+        Meteor.call('removeFromReceiveList', id);
+      }
     }
 
   }

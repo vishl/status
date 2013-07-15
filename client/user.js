@@ -1,5 +1,10 @@
 /*global Meteor Template Session Utils Accounts _ MF mixpanel*/
 
+Template.userPage.created = function(){
+  Session.set('findFriendError', null);
+  Session.set('findFriendMessage', null);
+};
+
 Template.userPage.events({
   'click #request' : function(e,t){
     e.preventDefault();
@@ -24,6 +29,14 @@ Template.userPage.events({
   },
 
 });
+
+Template.userPage.error = function(){
+  return Session.get('findFriendError');
+};
+
+Template.userPage.message = function(){
+  return Session.get('findFriendMessage');
+};
 
 Template.userPage.userDisplayName = function(){
   var user = Session.get("destinationUserName");
