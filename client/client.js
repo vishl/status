@@ -125,6 +125,23 @@ Template.page.sharingPage = function(){
 
 
 //change status
+Template.myStatus.created = function(){
+  var template = this;
+  template.activeField = null;
+  console.log("created mystatus");
+  console.log($('#mystatus-area').length);
+  $('body').on('focus', '#mystatus-area input', function(){
+    console.log('Setting active field');
+    template.activeField = this;
+  });
+  $('body').on('blur', '#mystatus-area input', function(){
+    if(template.activeField === this){
+      console.log('Clearing active field');
+      template.activeField = null;
+    }
+  });
+};
+
 Template.myStatus.events({
   'click #update' :function(event, template){
     var status = template.find("#edit-status").value.trim();
@@ -151,6 +168,13 @@ Template.myStatus.rendered = function(){
   $(self.find('.status')).pify();
   if(Session.get('edit_status')){
     $(self.find('#edit-status')).focus();
+  }
+
+  console.log("rendered mystatus");
+  console.log(this.activeField);
+  if(this.activeField){
+    console.log('focusing active field');
+    this.activeField.focus();
   }
 };
 
@@ -179,7 +203,7 @@ Template.myStatus.statusTime =function(){
   return MF.userStatusTimeDelta(Meteor.user());
 };
 
-Template.myStatus.messageUser = function(){
+Template.selfchats.messageUser = function(){
 //  Messages.distinct('otherId', {aboutId:Meteor.user()._id});
   var all = Messages.find({aboutId:Meteor.user()._id}).fetch();
   var unique = _.uniq(all, false, function(x){return x.otherId;});
@@ -189,6 +213,7 @@ Template.myStatus.messageUser = function(){
 };
 
 //this is a user
+Template.chatbox.preserve = ['input'];
 Template.chatbox.events({
   'submit form':function(e,t){
     e.preventDefault();
@@ -206,7 +231,7 @@ Template.chatbox.events({
       });
     }
     t.find("input").value="";
-    t.find("input").focus();
+    Meteor.setTimeout(function(){t.find("input").focus();},0);
     mixpanel.track("Message", {type:'mine'});
   },
 });
@@ -217,6 +242,14 @@ Template.chatbox.messages = function(){
 Template.chatbox.rendered = function(){
   var container = this.find('.messages');
   container.scrollTop = container.scrollHeight;
+  console.log("Rendered chatbox " + $(this.find('.chatbox')).data('username'));
+};
+Template.chatbox.toName = function(){
+  return MF.userDisplayName(this);
+};
+
+Template.chatbox.toUsername = function(){
+  return this.username;
 };
 
 

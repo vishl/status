@@ -82,19 +82,19 @@
           {{/if}}
         </div>
       </div>
-      {{#each messageUser}}
-        {{> chatbox}}
-      {{/each}}
-      <!--<div id="mystatus">
-        <textarea id="edit-status" placeholder="Edit status">{{status}}</textarea>
-        <input type="button" class="btn btn-large btn-primary" value="Update Status" id="update">
-      </div>-->
+      {{>selfchats}}
     </div>
   </div>
 </template>
 
+<template name="selfchats">
+  {{#each messageUser}}
+    {{> chatbox}}
+  {{/each}}
+</template>
+
 <template name="chatbox">
-  <div class="chat-area shadowborder chatbox">
+  <div class="chat-area shadowborder chatbox" data-username="{{toName}}">
     <div class="messages">
       {{#each messages}}
         {{> message}}
@@ -102,7 +102,7 @@
     </div>
     <div class="new-message">
       <form>
-        <input type="text" id="new-message" placeholder="Reply (private)">
+        <input type="text" id="new-message-{{toUsername}}" placeholder="Reply (private)">
       </form>
     </div>
   </div>
