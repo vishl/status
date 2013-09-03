@@ -1,4 +1,4 @@
-/*global Utils */
+/*global Utils _*/
 Utils = {};
 
 Utils.validateUserName = function(name){
@@ -18,6 +18,15 @@ Utils.validatePassword = function(password){
 };
 
 Utils.formatTimeDelta = function(t){
+};
+
+Utils.tokenChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+Utils.genToken = function(){
+  var ret = [];
+  for(var i=0; i<20; i++){
+    ret.push(Utils.tokenChars[_.random(0,Utils.tokenChars.length-1)]);
+  }
+  return ret.join('');
 };
 
 Utils.colors = {

@@ -1,0 +1,74 @@
+
+<template name="findFriendsPage">
+{{> findFriendsInner}}
+</template>
+
+<template name="findFriendsInner">
+<div class="row">
+  <div class="span12">
+    <div class="find-friends-form whitebox">
+      <form class="form-inline">
+        Find friends:
+        <input type="text" id="query" placeholder="Username or email">
+        <input type="submit" class="btn btn-success" id="ok" value="Follow">
+        <label><input type="checkbox" id="followback" checked="checked"> Allow them to follow me</label>
+      </form>
+    </div>
+
+    {{#if error}}
+    <div class="alert alert-error">{{error}}</div>
+    {{/if}}
+    {{#if message}}
+    <div class="alert alert-success">{{message}}</div>
+    {{/if}}
+
+    <div class="suggested-friends ">
+      <h1>Suggested Friends</h1>
+      {{#each fof}}
+        {{>suggestFriend}}
+      {{/each}}
+      <div class="clear"></div>
+    </div>
+
+    <div class="url-option whitebox">
+      Share this link to your status: 
+      <input type="text" value="{{myUrl}}">
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="suggestFriend">
+<div class="make-friend whitebox">
+  <div class="name">
+    {{userDisplayName}} <span class="username">@{{userName}}</span>
+  </div>
+  {{#if followed}}
+    <a class="btn" disabled="disabled">Requested</a>
+  {{else}}
+    <a class="btn btn-primary follow-button" data-username="{{userName}}">Follow</a>
+    <label class="followback"><input type="checkbox" id="followback" checked="checked"> Allow them to follow me</label>
+  {{/if}}
+</div>
+</template>
+
+<template name="findFriendsBox">
+    <div class="friendstatus shadowborder">
+      <div class=" find-friends">
+        <div class="top-area">
+          Find more friends
+        </div>
+        {{#each fof}}
+          {{>miniFriend}}
+        {{/each}}
+        <a href="/findfriends" class="btn btn-success find-more">Find more</a>
+      </div>
+    </div>
+</template>
+
+<template name="miniFriend">
+  <div class="mini-friend">
+    {{userDisplayName}}
+    <a href="/findfriends" class="btn btn-primary">Follow</a>
+  </div>
+</template>

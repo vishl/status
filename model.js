@@ -91,6 +91,64 @@ MF.userStatusTimeDelta = function(user){
   return "";
 };
 
+MF.userFriends = function(user){
+  if(!user){
+    return null;
+  }
+  return Meteor.users.find({sendList:user._id});
+};
+
+MF.userFriendsOfFriends = function(user){
+  if(!user){
+    return null;
+  }
+  var friends = MF.userFriends(user);
+  var fofIds = {};
+  if(!friends){
+    return null;
+  }
+  //find ids of people our friends share with
+  friends.forEach(function(friend){
+    if(friend.sendList){
+      _.each(friend.sendList, function(fofId){
+        fofIds[fofId] = 1;
+      });
+    }
+  });
+
+
+  //delete the ones we are already friends with
+  /*
+  _.each(user.receiveList, function(f){
+    delete fofIds[f];
+  });
+  */
+
+  //delete users id from list
+  delete fofIds[user._id];
+
+  //return users for each remaining id
+  return Meteor.users.find({_id:{$in:_.keys(fofIds)}});
+};
+
+MF.userGetToken = function(user){
+  if(!user){
+    return null;
+  }
+  var token = Utils.genToken();
+  if(user.token){
+    token = user.token;
+  }else{
+    //set the token
+    Meteor.users.update({_id:user._id}, {$set:{token:token}});
+  }
+  return token;
+};
+
+MF.userTokenLink = function(user){
+  return Meteor.absoluteUrl()+"u/" + user.username + '/';// + user.token;
+};
+
 ////////////////////////////////// Messages ////////////////////////////////////
 Messages = new Meteor.Collection("messages");
 

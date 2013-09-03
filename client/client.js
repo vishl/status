@@ -90,6 +90,7 @@ Meteor.Router.add({
   '/' : 'statusPage',
   //'/settings' : 'settings',
   '/sharing' : 'sharingPage',
+  '/findfriends' : 'findFriendsPage',
   '/u/:id' : function(id){
     Session.set('destinationUserName', id);
     if(Meteor.user()){
@@ -371,72 +372,6 @@ Template.friendStatus.messages =function(){
   return Messages.find({aboutId:this._id, otherId:Meteor.user()._id},{sort:{time:1}});
 };
 
-Template.findFriendsInner.error = function(){
-  return Session.get('findFriendError');
-};
-
-Template.findFriendsInner.message = function(){
-  return Session.get('findFriendMessage');
-};
-
-Template.findFriends.events({
-  'click #cancel' : function(e,t){
-    $(t.find('.modal')).modal('hide');
-  },
-
-  'submit form' : function(e,t){
-    e.preventDefault();
-    var q = t.find('#query').value;
-    var followback = $(t.find('#followback')).prop('checked');
-    if(Utils.validateEmail(q)){
-      //it's an email, need to do an rpc
-      Meteor.call('followByEmail', q, followback, function(error, result){
-        console.log(error);
-        console.log(result);
-        if(error){
-          var e = error.reason? error.reason : 'There was an error';
-          Session.set('findFriendError', e);
-        }else{
-          if(result){
-            Session.set('findFriendError', null);
-            Session.set('findFriendMessage', 'We sent a request to ' + MF.userDisplayName(result));
-            $(t.find('#query')).val('');
-            mixpanel.track("Friend request", {type:'email'});
-          }else{
-            Session.set('findFriendMessage', null);
-            Session.set('findFriendError', 'Could not find anyone with that email address');
-          }
-        }
-      });
-    }else{
-      //search by username
-      Meteor.call('followByUsername', q, followback, function(error, result){
-        if(error){
-          var e = error.reason? error.reason : 'There was an error';
-          Session.set('findFriendError', e);
-        }else{
-          if(result){
-            Session.set('findFriendError', null);
-            Session.set('findFriendMessage', 'We sent a request to ' + MF.userDisplayName(result));
-            $(t.find('#query')).val('');
-            mixpanel.track("Friend request", {type:'username'});
-          }else{
-            Session.set('findFriendMessage', null);
-            Session.set('findFriendError', 'Could not find anyone with that username');
-          }
-        }
-      });
-    }
-  },
-});
-
-Template.findFriendsInner.myUrl = function(){
-  if(Meteor.user()){
-    return Meteor.absoluteUrl()+"u/" + Meteor.user().username;
-  }
-  return "";
-};
-
 Template.friendRequests.frCount = function(){
   return Meteor.user() && Meteor.user().requestList ? Meteor.user().requestList.length : 0;
 };
@@ -489,5 +424,5 @@ Template.footer.events({
 });
 
 Template.friendLink.link = function(){
-  return Meteor.absoluteUrl()+"u/" + Meteor.user().username;
+  return MF.userTokenLink(Meteor.user());
 };

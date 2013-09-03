@@ -4,7 +4,7 @@ Meteor.startup(function () {
 });
 
 Meteor.publish("userData", function () {
-  return Meteor.users.find({_id:this.userId}, {fields: {sendList:1, receiveList:1, requestList:1, status:1, statusTime:1}});
+  return Meteor.users.find({_id:this.userId}, {fields: {sendList:1, receiveList:1, requestList:1, status:1, statusTime:1, token:1}});
 });
 
 Meteor.publish("friendUserData", function () {
@@ -44,7 +44,7 @@ Meteor.users.allow({
     }
     var ok = true;
     _.each(fields, function(f){
-      if(!_.contains(["status", "statusTime"], f)){
+      if(!_.contains(["status", "statusTime", "token"], f)){
         console.log("whoops" + f);
         ok = false;
       }
@@ -77,6 +77,7 @@ Accounts.onCreateUser(function(options, user){
   user.requestList = [];
   user.status = "";
   user.statusTime = 0;
+  user.token = Utils.genToken();
   return user;
 });
 
@@ -154,7 +155,7 @@ var handleReject = function(authorizer, requester){
 Meteor.methods({
   followByEmail : function(query, followback){
     if(!Utils.validateEmail(query)){
-      throw new Meteor.error(400, "Invalid email address");
+      throw new Meteor.Error(400, "Invalid email address");
     }
 
     var targetUser = Meteor.users.findOne({"emails.address":query});
@@ -168,7 +169,7 @@ Meteor.methods({
   followByUsername : function(query, followback){
     console.log('Follow by username');
     if(!Utils.validateUserName(query)){
-      throw new Meteor.error(400, "Invalid username");
+      throw new Meteor.Error(400, "Invalid username:[" + query+"]");
     }
 
     var currentUser = Meteor.users.findOne({_id:this.userId});
